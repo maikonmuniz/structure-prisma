@@ -13,4 +13,25 @@ model Products {
   bar_code  String   @unique
   price     Decimal
   create_at DateTime @default(now())
+  
+  ProductCategory ProductCategory[]
+  @@map("products")
+}
+
+model Category {
+  id   String @id @default(uuid())
+  name String
+
+  ProductCategory ProductCategory[]
+  @@map("categories")
+}
+
+model ProductCategory {
+  id            String   @id @default(uuid())
+  id_products   String
+  products      Products  @relation(fields: [id_products], references: [id])
+  id_category   String
+  category      Category @relation(fields: [id_category], references: [id])
+
+  @@map("products_categories")
 }
